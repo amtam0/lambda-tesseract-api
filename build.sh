@@ -7,9 +7,9 @@ rm tesseract-layer-fast.zip
 rm tesseract-layer-best.zip
 # Build Docker image containing Tesseract
 set -e
-docker build -t bweigel/ocr_layer .
+docker build -t tess_layer .
 # Copy Tesseract locally
-CONTAINER=$(docker run -d bweigel/ocr_layer false)
+CONTAINER=$(docker run -d tess_layer false)
 docker cp $CONTAINER:/opt/build-dist layer
 docker rm $CONTAINER
 # Zip Tesseract
