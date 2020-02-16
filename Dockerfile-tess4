@@ -1,8 +1,8 @@
 FROM lambci/lambda-base:build
 
-#Proxy setup for lmg
-#ENV http_proxy 'http://165.225.88.32:9400'
-#ENV https_proxy 'https://165.225.88.32:9400'
+#Proxy setup if exists
+#ENV http_proxy 'http://ip:port'
+#ENV https_proxy 'https://ip:port'
 
 ARG LEPTONICA_VERSION=1.78.0
 ARG TESSERACT_VERSION=4.1.0-rc4
@@ -54,19 +54,12 @@ RUN curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/ra
     curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/raw/${TESSERACT_DATA_VERSION}/eng.traineddata > eng.traineddata && \
     curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/raw/${TESSERACT_DATA_VERSION}/${OCR_LANG}.traineddata > ${OCR_LANG}.traineddata
 
-#RUN mkdir -p configs
-#RUN mkdir -p tessconfigs
-
-#WORKDIR ${DIST}/tesseract/share/tessdata/configs
-#RUN curl -L https://github.com/tesseract-ocr/tessconfigs/blob/master/configs/makebox > makebox
-#WORKDIR ${DIST}/tesseract/share/tessdata/tessconfigs
-#RUN curl -L https://github.com/tesseract-ocr/tessconfigs/blob/master/tessconfigs/batch.nochop > batch.nochop
-
-#COPY configs/* ${DIST}/tesseract/share/tessdata/configs/
-#COPY tessconfigs/* ${DIST}/tesseract/share/tessdata/tessconfigs/
-
 COPY . ${DIST}/tesseract/share/tessdata/
-RUN rm build.sh
-RUN rm Dockerfile
+
+RUN rm Dockerfile*
+RUN rm READM*
+RUN rm build_*
+RUN rm *.zip
+RUN rm -rf example
 
 WORKDIR /var/task
