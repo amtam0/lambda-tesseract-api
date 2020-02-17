@@ -1,36 +1,22 @@
 # tesseract-lambda-layer
 
 
-## Fast setup
+## Fast setup to create tesseract and python layers
 
 clone the repo
 cd .../repo
 
 bash build_py37_pkgs.sh
-bash build_tesseract4.0.0
-
-Upload manually layers to Aws lambda layers
-Check env to python 3.7
-
-Create lambda function
-environment variable / memory / timeout / code
-
-Test lambda
-
-Create Api
-new method POST
-enable CORS
-
-Test Api if OK deploy
-
-Test Api in Postman
+bash build_tesseract4.sh
 
 Done !
 
-#### Check Medium Blog for all th steps in details
+#### Check Medium Blog for all the steps to setup AWS lambda and Api Gateway in details
 
-# Credits
+# References
 
 [Ocr Layer] https://github.com/bweigel/aws-lambda-tesseract-layer
-[Python libraries to layers] https://github.com/tiivik/LambdaZipper 
+
+[Python libraries to layers] https://github.com/tiivik/LambdaZipper
+
 [python3.7 lambda] https://github.com/lambci/docker-lambda
