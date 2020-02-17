@@ -59,7 +59,7 @@ COPY . ${DIST}/tesseract/share/tessdata/
 RUN rm Dockerfile*
 RUN rm READM*
 RUN rm build_*
-RUN rm *.zip
+RUN rm *.zip; exit 0
 RUN rm -rf example
 
 WORKDIR /var/task
