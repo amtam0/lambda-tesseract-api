@@ -1,7 +1,6 @@
-# tesseract-lambda-layer
+*Note* : Docker must be installed 
 
-
-## Fast setup to create tesseract and python layers
+### Fast setup to create tesseract and python layers
 
 clone the repo
 cd .../repo
