@@ -6,8 +6,9 @@
 clone the repo
 cd .../repo
 
-bash build_py37_pkgs.sh
-bash build_tesseract4.sh
+```bash build_py37_pkgs.sh```
+
+```bash build_tesseract4.sh```
 
 Done !
 
