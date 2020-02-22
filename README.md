@@ -10,7 +10,7 @@ clone the repo
 
 ```bash build_tesseract4.sh```
 
-Done ! You should some .zip files created in your directory.
+Done ! You should see some .zip files created in your directory.
 
 #### Check the Medium Blog for all the steps to setup AWS lambda and Api Gateway in details
 
