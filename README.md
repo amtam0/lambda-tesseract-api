@@ -12,7 +12,7 @@ clone the repo
 
 Done ! You should see some .zip files created in your directory.
 
-#### Check the Medium [link]() for all the steps to setup AWS lambda and Api Gateway in details
+#### Check the Medium [link]() to setup lambda and Api in AWS console
 
 # References
 
