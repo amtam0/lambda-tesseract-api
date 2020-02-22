@@ -12,12 +12,12 @@ clone the repo
 
 Done ! You should see some .zip files created in your directory.
 
-#### Check the Medium Blog for all the steps to setup AWS lambda and Api Gateway in details
+#### Check the Medium [link]() for all the steps to setup AWS lambda and Api Gateway in details
 
 # References
 
-[Ocr Layer] https://github.com/bweigel/aws-lambda-tesseract-layer
+[Ocr Layer] (https://github.com/bweigel/aws-lambda-tesseract-layer)
 
-[Python libraries to layers] https://github.com/tiivik/LambdaZipper
+[Python libraries to layers] (https://github.com/tiivik/LambdaZipper)
 
-[python3.7 lambda] https://github.com/lambci/docker-lambda
+[python3.7 lambda] (https://github.com/lambci/docker-lambda)
