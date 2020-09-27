@@ -6,9 +6,7 @@ clone the repo
 
 ```cd lambda-tesseract-api/```
 
-```bash build_py37_pkgs.sh```
-
-```bash build_tesseract4.sh```
+```sudo bash build_all.sh```
 
 Done ! You should see some .zip files created in your directory.
 

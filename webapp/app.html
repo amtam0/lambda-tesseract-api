@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="container-fluid p-5">
+      
+      <form id="formElem">
+        
+        <div class="row justify-content-around">
+          <div class="col mb-3">
+            <h1>Tesseract serverless Api</h1>
+            <br>
+            <select class="psm" name="psm" id="psm">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+            </select>
+            <select class="oem" name="oem" id="oem">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="0" selected>0</option>
+            </select>
+            <select class="lang" name="lang" id="lang">
+              <option value="eng" selected>eng</option>
+              <option value="fre">fra</option>
+            </select>
+            <input type="file" name="imguploader" id="imguploader" accept="image/png, image/jpeg, image/tiff" onchange="displayimage();">
+            <input class="btn btn-default" type="submit" value="Search">
+            <div id="dummy"></div>
+          </div>
+        </div>
+        
+        <div class="row justify-content-around">
+          <div class="col d-flex justify-content-left mb-3">
+            <!-- {{videos | safe}} -->
+            <div id="decodedlink"></div>
+          </div>
+          <div class="col d-flex justify-content-left mb-3">
+            <!-- {{image | safe}} -->
+          </div>
+        </div>
+
+        <div class="row justify-content-around">
+          <div class="col">
+            <!-- {{tables | safe}} -->
+            <div id="decodedresult"></div>
+          </div>
+        </div>
+      
+      </form>
+      
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      // https://stackoverflow.com/a/63255139/7358899
+      function displayimage() {
+        var selectedfile = document.getElementById("imguploader").files;
+        if (selectedfile.length > 0) {
+          var imageFile = selectedfile[0];
+          var fileReader = new FileReader();
+          fileReader.onload = function(fileLoadedEvent) {
+          //   var base64data = fileLoadedEvent.target.result.split(',')[1];
+            var srcData = fileLoadedEvent.target.result;
+            var newImage = document.createElement('img');
+            newImage.src = srcData;
+            document.getElementById("dummy").innerHTML = newImage.outerHTML;
+          }
+          fileReader.readAsDataURL(imageFile);
+        }
+      }
+
+      function getBase64(file, onLoadCallback) {
+          return new Promise(function(resolve, reject) {
+              var reader = new FileReader();
+              reader.onload = function() { resolve(reader.result); };
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+          });
+      }
+
+
+      formElem.onsubmit = async (e) => {
+        e.preventDefault();
+        var form = document.querySelector("#formElem");
+
+        var selectedfile = form.querySelector('#imguploader').files[0];
+        var promise = getBase64(selectedfile);
+        promise.then(function(image64) {
+            // console.log(image64);
+        });
+        let image64 = await promise
+
+        data = {
+                  tess_params : {
+                    psm : form.querySelector('#psm').value,
+                    oem : form.querySelector('#oem').value,
+                    lang : form.querySelector('#lang').value,
+                  },
+                  image64 : image64.split(',')[1],
+                }
+
+        let response = await fetch('https://4sqn0tchy6.execute-api.eu-west-1.amazonaws.com/test1', {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+        })
+
+        let text = await response.text(); // read response body as text
+        let results = JSON.parse(text);
+        let body_result = JSON.parse(results["body"]);
+        // document.querySelector("#decodedlink").innerHTML = body_result["BODY"]; 
+        document.querySelector("#decodedresult").innerHTML = body_result["ocr_text"];     
+      };
+    </script>
+  </body>
+</html>

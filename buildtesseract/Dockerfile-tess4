@@ -1,4 +1,5 @@
 FROM lambci/lambda-base:build
+#FROM lambci/lambda:build-python3.7
 
 #Proxy setup if exists
 #ENV http_proxy 'http://ip:port'
@@ -14,7 +15,7 @@ ARG DIST=/opt/build-dist
 # change OCR_LANG to enable the layer for different languages
 ARG OCR_LANG=fra
 # change TESSERACT_DATA_SUFFIX to use different datafiles (options: "_best", "_fast" and "")
-ARG TESSERACT_DATA_SUFFIX=_fast
+ARG TESSERACT_DATA_SUFFIX=
 ARG TESSERACT_DATA_VERSION=4.0.0
 
 RUN yum makecache fast; yum clean all && yum -y update && yum -y upgrade; yum clean all && \
@@ -56,10 +57,10 @@ RUN curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/ra
 
 COPY . ${DIST}/tesseract/share/tessdata/
 
-RUN rm Dockerfile*
-RUN rm READM*
-RUN rm build_*
+RUN rm Dockerfile*; exit 0
+RUN rm READM*; exit 0
+RUN rm build_*; exit 0
 RUN rm *.zip; exit 0
-RUN rm -rf example
+RUN rm -rf example; exit 0
 
 WORKDIR /var/task
