@@ -10,7 +10,7 @@ clone the repo
 
 Done ! You should see some .zip files created in your directory.
 
-#### Check the Medium [link](https://medium.com/@amtam0/tesseract-4-serverless-api-using-aws-lambda-and-python-in-minutes-91279e73a50) to setup lambda and Api in AWS console
+#### Check the Medium [link](https://medium.com/analytics-vidhya/build-tesseract-serverless-api-using-aws-lambda-and-docker-in-minutes-dd97a79b589b?source=friends_link&sk=5c1c6948bc1a6c2a7e918e0874bf80c9) to setup lambda and Api in AWS console
 
 # References
 
