@@ -15,7 +15,3 @@ Done ! You should see some .zip files created in your directory.
 # References
 
 [Ocr Layer] (https://github.com/bweigel/aws-lambda-tesseract-layer)
-
-[Python libraries to layers] (https://github.com/tiivik/LambdaZipper)
-
-[python3.7 lambda] (https://github.com/lambci/docker-lambda)
