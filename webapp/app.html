@@ -9,13 +9,11 @@
 
   <body>
     <div class="container-fluid p-5">
-      
+      <h1>Tesseract serverless Api</h1>
+      <hr><hr>
       <form id="formElem">
-        
         <div class="row justify-content-around">
-          <div class="col mb-3">
-            <h1>Tesseract serverless Api</h1>
-            <br>
+          <div class="col sm form-inline">
             <select class="form-control form-control-sm" style="width:auto;" name="psm" id="psm" required>
                 <option value="" selected>Psm</option>
                 <option value="1">1</option>
@@ -51,29 +49,25 @@
               <option value="True">True</option>
               <option value="False">False</option>
             </select>
-
             <input type="file" name="imguploader" id="imguploader" accept="image/*" onchange="displayimage();" required>
-            <br><br>
-            <input class="btn btn-warning" type="submit" value="OCR">
           </div>
         </div>
-        
-        <hr>
 
+        <hr>
+        <input class="btn btn-warning" type="submit" value="OCR">
+        <hr>
         <div class="row justify-content-around">
           <div id="dummy" class="col-sm"></div>
         </div>
-        
         <hr>
-
         <div class="row justify-content-around">
           <div class="col-sm">
             <div id="decodedresult"></div>
           </div>
         </div>
       </form>
-      
     </div>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
