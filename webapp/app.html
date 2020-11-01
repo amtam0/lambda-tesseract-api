@@ -2,6 +2,9 @@
 <html>
   <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
@@ -13,7 +16,7 @@
           <div class="col mb-3">
             <h1>Tesseract serverless Api</h1>
             <br>
-            <select class="psm" name="psm" id="psm" required>
+            <select class="form-control form-control-sm" style="width:auto;" name="psm" id="psm" required>
                 <option value="" selected>Psm</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -30,7 +33,7 @@
                 <option value="13">13</option>
                 <option value="14">14</option>
             </select>
-            <select class="oem" name="oem" id="oem" required>
+            <select class="form-control form-control-sm" style="width:auto;" name="oem" id="oem" required>
               <option value="" selected>Oem</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -38,39 +41,36 @@
                 <option value="4">4</option>
                 <option value="0">0</option>
             </select>
-            <select class="lang" name="lang" id="lang" required>
+            <select class="form-control form-control-sm" style="width:auto;" name="lang" id="lang" required>
               <option value="" selected>Lang</option>
               <option value="eng">eng</option>
               <option value="fra">fra</option>
             </select>
-            <select class="usepil" name="usepil" id="usepil" required>
+            <select class="form-control form-control-sm" style="width:auto;" name="usepil" id="usepil" required>
               <option value="" selected>Use Pillow</option>
               <option value="True">True</option>
               <option value="False">False</option>
             </select>
 
-            <input type="file" name="imguploader" id="imguploader" accept="image/png, image/jpeg, image/tiff" onchange="displayimage();" required>
-            <input class="btn btn-default" type="submit" value="OCR">
-            <div id="dummy"></div>
+            <input type="file" name="imguploader" id="imguploader" accept="image/*" onchange="displayimage();" required>
+            <br><br>
+            <input class="btn btn-warning" type="submit" value="OCR">
           </div>
         </div>
         
-        <!-- <div class="row justify-content-around">
-          <div class="col d-flex justify-content-left mb-3">
-            
-            <div id="decodedlink"></div>
-          </div>
-          <div class="col d-flex justify-content-left mb-3">
-            
-          </div>
-        </div> -->
+        <hr>
 
         <div class="row justify-content-around">
-          <div class="col">
+          <div id="dummy" class="col-sm"></div>
+        </div>
+        
+        <hr>
+
+        <div class="row justify-content-around">
+          <div class="col-sm">
             <div id="decodedresult"></div>
           </div>
         </div>
-      
       </form>
       
     </div>
@@ -89,6 +89,7 @@
             var srcData = fileLoadedEvent.target.result;
             var newImage = document.createElement('img');
             newImage.src = srcData;
+            newImage.className = "img-fluid";
             document.getElementById("dummy").innerHTML = newImage.outerHTML;
           }
           fileReader.readAsDataURL(imageFile);
@@ -137,7 +138,6 @@
         let text = await response.text(); // read response body as text
         let results = JSON.parse(text);
         let body_result = JSON.parse(results["body"]);
-        // document.querySelector("#decodedlink").innerHTML = body_result["BODY"]; 
         document.querySelector("#decodedresult").innerHTML = body_result["ocr_text"];     
       };
     </script>
