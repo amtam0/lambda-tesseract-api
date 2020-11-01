@@ -1,10 +1,42 @@
 <!doctype html>
 <html>
   <head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* https://stackoverflow.com/a/1964871 */
+      /* http://ajaxload.info/ spinner examples*/
+      /* Start by setting display:none to make this hidden.
+        Then we position it in relation to the viewport window
+        with position:fixed. Width, height, top and left speak
+        for themselves. Background we set to 80% white with
+        our animation centered, and no-repeating */
+      .spinner {
+          display:    none;
+          position:   fixed;
+          z-index:    1000;
+          top:        0;
+          left:       0;
+          height:     100%;
+          width:      100%;
+          background: rgba( 255, 255, 255, .8 ) 
+                      url('ajax-loader.gif') 
+                      50% 50% 
+                      no-repeat;
+      }
+      /* When the body has the loading class, we turn
+        the scrollbar off with overflow:hidden */
+      body.loading .spinner {
+          overflow: hidden;   
+      }
+      /* Anytime the body has the loading class, our
+        spinner element will be visible */
+      body.loading .spinner {
+          display: block;
+      }
+    </style>
   </head>
 
   <body>
@@ -66,12 +98,16 @@
           </div>
         </div>
       </form>
+      <div class="spinner"><!-- Place at bottom of page --></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
+
+      $body = $("body");
+
       // https://stackoverflow.com/a/63255139/7358899
       function displayimage() {
         var selectedfile = document.getElementById("imguploader").files;
@@ -102,6 +138,7 @@
 
       formElem.onsubmit = async (e) => {
         e.preventDefault();
+        $body.addClass("loading");
         var form = document.querySelector("#formElem");
 
         var selectedfile = form.querySelector('#imguploader').files[0];
@@ -132,6 +169,7 @@
         let text = await response.text(); // read response body as text
         let results = JSON.parse(text);
         let body_result = JSON.parse(results["body"]);
+        $body.removeClass("loading");
         document.querySelector("#decodedresult").innerHTML = body_result["ocr_text"];     
       };
     </script>
