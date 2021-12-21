@@ -1,12 +1,12 @@
-FROM lambci/lambda-base:build
-#FROM lambci/lambda:build-python3.7
+## Builds binaries for Amazonlinux 2
+FROM lambci/lambda-base-2:build
 
 #Proxy setup if exists
 #ENV http_proxy 'http://ip:port'
 #ENV https_proxy 'https://ip:port'
 
-ARG LEPTONICA_VERSION=1.78.0
-ARG TESSERACT_VERSION=4.1.0-rc4
+ARG LEPTONICA_VERSION=1.80.0
+ARG TESSERACT_VERSION=4.1.3
 ARG AUTOCONF_ARCHIVE_VERSION=2017.09.28
 ARG TMP_BUILD=/tmp
 ARG TESSERACT=/opt/tesseract
@@ -15,7 +15,7 @@ ARG DIST=/opt/build-dist
 # change OCR_LANG to enable the layer for different languages
 ARG OCR_LANG=fra
 # change TESSERACT_DATA_SUFFIX to use different datafiles (options: "_best", "_fast" and "")
-ARG TESSERACT_DATA_SUFFIX=
+ARG TESSERACT_DATA_SUFFIX=_fast
 ARG TESSERACT_DATA_VERSION=4.0.0
 
 RUN yum makecache fast; yum clean all && yum -y update && yum -y upgrade; yum clean all && \
@@ -39,28 +39,25 @@ RUN curl https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-${AUTOCONF_AR
 WORKDIR ${TMP_BUILD}/tesseract-build
 RUN curl -L https://github.com/tesseract-ocr/tesseract/archive/${TESSERACT_VERSION}.tar.gz | tar xz && \
     cd tesseract-${TESSERACT_VERSION} && ./autogen.sh  && PKG_CONFIG_PATH=/opt/leptonica/lib/pkgconfig LIBLEPT_HEADERSDIR=/opt/leptonica/include \
-    ./configure --prefix=${TESSERACT} --with-extra-includes=/opt/leptonica/include --with-extra-libraries=/opt/leptonica/lib && make && make install
+    ./configure --prefix=${TESSERACT} --with-extra-includes=/opt/leptonica/include --with-extra-libraries=/opt/leptonica/lib 'CXXFLAGS=-mavx2' && make && make install
 
 WORKDIR /opt
 RUN mkdir -p ${DIST}/lib && mkdir -p ${DIST}/bin && \
     cp ${TESSERACT}/bin/tesseract ${DIST}/bin/ && \
     cp ${TESSERACT}/lib/libtesseract.so.4  ${DIST}/lib/ && \
     cp ${LEPTONICA}/lib/liblept.so.5 ${DIST}/lib/liblept.so.5 && \
+    cp /usr/lib64/libgomp.so.1 ${DIST}/lib/ && \
     cp /usr/lib64/libwebp.so.4 ${DIST}/lib/ && \
-    echo -e "LEPTONICA_VERSION=${LEPTONICA_VERSION}\nTESSERACT_VERSION=${TESSERACT_VERSION}\nTESSERACT_DATA_FILES=tessdata${TESSERACT_DATA_SUFFIX}/${TESSERACT_DATA_VERSION}" > ${DIST}/TESSERACT-README.md && \
+    cp /usr/lib64/libpng15.so.15 ${DIST}/lib/ && \
+    cp /usr/lib64/libjpeg.so.62 ${DIST}/lib/ && \
+    cp /usr/lib64/libtiff.so.5 ${DIST}/lib/ && \
+    cp /usr/lib64/libjbig.so.2.0 ${DIST}/lib/ && \
+    echo -e "LEPTONICA_VERSION=${LEPTONICA_VERSION}\nTESSERACT_VERSION=${TESSERACT_VERSION}\nTESSERACT_DATA_FILES=tessdata${TESSERACT_DATA_SUFFIX}/${TESSERACT_DATA_VERSION}\nTESSERACT_DATA_LANGUAGES=osd,eng,${OCR_LANG}" > ${DIST}/TESSERACT-README.md && \
     find ${DIST}/lib -name '*.so*' | xargs strip -s
 
 WORKDIR ${DIST}/tesseract/share/tessdata
 RUN curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/raw/${TESSERACT_DATA_VERSION}/osd.traineddata > osd.traineddata && \
     curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/raw/${TESSERACT_DATA_VERSION}/eng.traineddata > eng.traineddata && \
     curl -L https://github.com/tesseract-ocr/tessdata${TESSERACT_DATA_SUFFIX}/raw/${TESSERACT_DATA_VERSION}/${OCR_LANG}.traineddata > ${OCR_LANG}.traineddata
-
-COPY . ${DIST}/tesseract/share/tessdata/
-
-RUN rm Dockerfile*; exit 0
-RUN rm READM*; exit 0
-RUN rm build_*; exit 0
-RUN rm *.zip; exit 0
-RUN rm -rf example; exit 0
 
 WORKDIR /var/task
