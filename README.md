@@ -1,17 +1,24 @@
-*Note* : Docker must be installed 
+## Fast setup of OCR lambda function using Tesseract 5 and a custom OCR (here we use PaddleOCR ONNX version)
 
-### Fast setup to create tesseract and python layers
+### Setup:
 
-clone the repo
+- clone repo
 
-```cd lambda-tesseract-api/```
+- create ECR repo in your AWS / copy its URI and add it to `zip_fct` #line 27/28
 
-```sudo bash build_all.sh```
+- connect if not done `aws ecr get-login-password --region yourREGION | docker login --username AWS --password-stdin yourURI`
 
-Done ! You should see some .zip files created in your directory.
+- run ```cd lambda-tesseract-api/; bash zip_fct.sh```
 
-#### Check the Medium [link](https://medium.com/analytics-vidhya/build-tesseract-serverless-api-using-aws-lambda-and-docker-in-minutes-dd97a79b589b?source=friends_link&sk=5c1c6948bc1a6c2a7e918e0874bf80c9) to setup lambda and Api in AWS console
+Done ! Your ECR image is ready to be upload from your lambda function (you can use the `example.json` for test).
 
-# References
+**Notes** :
+- Docker must be installed, tested in Ubuntu 20.04.
+- Here we do only the Recognition part, You can edit OCR fcts in `lambda_function.py` to your needs.
 
-[Ocr Layer] (https://github.com/bweigel/aws-lambda-tesseract-layer)
+Check [Medium link](https://medium.com/analytics-vidhya/build-tesseract-serverless-api-using-aws-lambda-and-docker-in-minutes-dd97a79b589b?source=friends_link&sk=5c1c6948bc1a6c2a7e918e0874bf80c9) to setup lambda and Api in AWS console. Not updated (the lambda setup is easier now, you only need to upload Image from ECR).
+
+## References
+- [Tesseract Layer](https://github.com/bweigel/aws-lambda-tesseract-layer)
+- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- [PaddleOCR onnx/inference setup](https://github.com/amtam0/PADDLE-ONNX)
