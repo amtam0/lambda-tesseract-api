@@ -1,5 +1,5 @@
 pytesseract==0.3.10
-onnx==1.12.0
+onnx==1.13.0
 onnxruntime==1.12.0
 pyclipper==1.3.0.post3
 shapely==1.8.2
